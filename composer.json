@@ -10,13 +10,14 @@
     "require": {
         "php": "^7.2",
         "barryvdh/laravel-debugbar": "^3.2",
+        "dingo/api": "^2",
         "fideloper/proxy": "^4.0",
+        "guzzlehttp/guzzle": "~6.0",
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
         "laravel/ui": "^1.0",
         "tymon/jwt-auth": "1.0.x-dev",
-        "yajra/laravel-datatables-oracle": "~9.0",
-        "dingo/api": "^2"
+        "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
