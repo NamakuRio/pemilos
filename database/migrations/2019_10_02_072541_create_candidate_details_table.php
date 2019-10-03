@@ -19,7 +19,7 @@ class CreateCandidateDetailsTable extends Migration
             $table->string('name');
             $table->string('class');
             $table->string('majors');
-            $table->string('gender');
+            $table->enum('gender', ['L', 'P'])->default('L');
             $table->string('picture');
             $table->enum('type', ['ketua', 'wakil']);
             $table->timestamps();

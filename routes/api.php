@@ -1,10 +1,14 @@
 <?php
 
-$api = app('Dingo\Api\Routing\Router');
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('/login', 'AuthController@login')->name('api.auth.login');
+    Route::get('/me', 'AuthController@me')->name('api.auth.me')->middleware('auth:api');
+    // Route::post('/logout', 'Auth@logout')->nalogout('api.auth.me');
+});
 
-$api->version('v1', function ($api) {
-    $api->group(['prefix' => 'auth'], function ($api) {
-        $api->POST('login',  'App\Http\Controllers\Api\Auth@login');
-    });
-    $api->GET('me',  'App\Http\Controllers\Api\Auth@me');
+Route::group([ 'prefix' => 'candidate'], function () {
+
+    Route::get('/getCandidate', 'CandidateController@getCandidate')->name('api.candidate.get');
+    Route::post('/your-choice', 'CandidateController@yourChoice')->name('api.candidate.input');
+
 });
