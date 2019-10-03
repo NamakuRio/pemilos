@@ -28,5 +28,9 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer(
             'admin.*', SettingComposer::class
         );
+
+        view()->composer(
+            '*', SettingComposer::class
+        );
     }
 }
