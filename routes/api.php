@@ -6,7 +6,7 @@ Route::group(['prefix' => 'auth'], function () {
     // Route::post('/logout', 'Auth@logout')->nalogout('api.auth.me');
 });
 
-Route::group([ 'prefix' => 'candidate'], function () {
+Route::group(['middleware' => 'auth:api', 'prefix' => 'candidate'], function () {
 
     Route::get('/getCandidate', 'CandidateController@getCandidate')->name('api.candidate.get');
     Route::post('/your-choice', 'CandidateController@yourChoice')->name('api.candidate.input');
