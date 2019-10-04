@@ -17,7 +17,7 @@ class AuthController extends Controller
 
         $user = $user->find(Auth::user()->id);
 
-        $data = array(
+        $data[] = array(
             'id' => $user->id,
             'username' => $user->username,
             'name' => $user->name,
