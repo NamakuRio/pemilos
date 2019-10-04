@@ -11,7 +11,7 @@ class AuthController extends Controller
 {
     public function login(Request $request, User $user)
     {
-        if(!Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+        if(!Auth::attempt(['code' => $request->code, 'password' => $request->password])) {
             return response()->json(['status' => 'error', 'msg' => 'error login', 'data' => []]);
         }
 
@@ -34,7 +34,7 @@ class AuthController extends Controller
     {
         $user = $user->find(Auth::user()->id);
 
-        $data = array('status' => 'success', 'msg' => 'success login', 'data' => $user);
+        $data = array('status' => 'success', 'msg' => 'success mendapatkan detail user', 'data' => $user);
 
         return response()->json($data);
     }

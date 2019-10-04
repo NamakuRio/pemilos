@@ -19,6 +19,7 @@ class AdminUserSeeder extends Seeder
             'email' => 'admin@pemilos.test',
             'password' => bcrypt('12345678'),
             'api_token' => bcrypt('admin@pemilos.test'),
+            'code' => rand(1000, 9999),
         ]);
 
         $admin->assignRole('admin');
