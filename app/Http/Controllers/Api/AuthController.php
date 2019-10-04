@@ -12,7 +12,7 @@ class AuthController extends Controller
     public function login(Request $request, User $user)
     {
         if(!Auth::attempt(['code' => $request->code, 'password' => $request->password])) {
-            return response()->json(['status' => 'error', 'msg' => 'error login', 'data' => []]);
+            return response()->json(['status' => 'error', 'msg' => 'Code yang Anda masukkan salah', 'data' => []]);
         }
 
         $user = $user->find(Auth::user()->id);
