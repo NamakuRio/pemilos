@@ -2,7 +2,7 @@
 
 Route::get('/', function () {
     return view('templates.master');
-});
+})->middleware('auth');
 
 Auth::routes(['register' => false]);
 
