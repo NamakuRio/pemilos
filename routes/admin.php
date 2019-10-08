@@ -14,7 +14,13 @@ Route::group(['prefix' => 'candidate'], function () {
     Route::put('/', 'Candidate@update')->name('admin.candidate.update');
     Route::get('/edit/{candidate}', 'Candidate@edit')->name('admin.candidate.edit');
     Route::delete('/', 'Candidate@destroy')->name('admin.candidate.destroy');
+
     Route::get('/getCandidate', 'Candidate@getCandidate')->name('admin.get.candidate');
+    Route::post('/getCandidate/visi', 'Candidate@getDetailCandidate')->name('admin.get.candidate.visi');
+    Route::post('/getCandidate/misi', 'Candidate@getDetailCandidate')->name('admin.get.candidate.misi');
+    Route::post('/getCandidate/ketua', 'Candidate@getDetailCandidate')->name('admin.get.candidate.ketua');
+    Route::post('/getCandidate/wakil', 'Candidate@getDetailCandidate')->name('admin.get.candidate.wakil');
+
 });
 
 Route::group(['prefix' => 'user'], function () {

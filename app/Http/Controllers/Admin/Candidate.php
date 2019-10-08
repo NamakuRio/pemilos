@@ -124,6 +124,23 @@ class Candidate extends Controller
         return $return;
     }
 
+    public function getDetailCandidate(Request $request)
+    {
+        $candidate = AppCandidate::find($request->id);
+
+        $detail = $request->detail;
+        if($detail == 'ketua' || $detail == 'wakil') {
+            $candidate = $candidate->candidateDetails->where('type', $detail)->first();
+
+            $response = array('status' => 'success', 'msg' => 'berhasil mengambil detail', 'data' => $candidate, 'picture' => '<img src="'.asset('uploads/'.$candidate->picture).'" class="img-thumbnail" id="view-picture-ketua" alt="Responsive image">');
+        } else {
+
+            $response = array('status' => 'success', 'msg' => 'berhasil mengambil detail', 'data' => $candidate->$detail);
+        }
+
+        return response()->json($response);
+    }
+
     public function getCandidate()
     {
         $candidates = AppCandidate::get()->all();
@@ -132,12 +149,28 @@ class Candidate extends Controller
                             ->addColumn('ketua', function($candidate) {
                                 $ketua = $candidate->candidateDetails->where('type', 'ketua')->first();
 
-                                return $ketua->name;
+                                $getKetua = '<a href="javascript:void(0)" data-id="'. $candidate->id .'" onclick="ketua_modal(this)">'.$ketua->name.'</a>';
+
+                                return $getKetua;
                             })
                             ->addColumn('wakil', function($candidate) {
                                 $wakil = $candidate->candidateDetails->where('type', 'wakil')->first();
 
-                                return $wakil->name;
+                                $getWakil = '<a href="javascript:void(0)" data-id="'. $candidate->id .'" onclick="wakil_modal(this)">'.$wakil->name.'</a>';
+
+                                return $getWakil;
+                            })
+                            ->editColumn('visi', function($candidate) {
+                                $visi = "";
+                                $visi = '<a href="javascript:void(0)" data-id="'. $candidate->id .'" onclick="visi_modal(this)">[Visi]</a>';
+
+                                return $visi;
+                            })
+                            ->editColumn('misi', function($candidate) {
+                                $misi = "";
+                                $misi = '<a href="javascript:void(0)" data-id="'. $candidate->id .'" onclick="misi_modal(this)">[Misi]</a>';
+
+                                return $misi;
                             })
                             ->addColumn('action', function($candidate) {
                                 $button = "";
