@@ -20,6 +20,7 @@ class CandidateController extends Controller
             $wakil = $candidate->candidateDetails->where('type', 'wakil')->first();
 
             $response[] = array(
+                'id' => $candidate->id,
                 'ketua_name' => $ketua->name,
                 'ketua_class' => $ketua->class,
                 'ketua_major' => $ketua->majors,
