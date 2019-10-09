@@ -70,20 +70,20 @@ class Candidate extends Controller
             if($ketua && $wakil) {
                 $return = '
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Sukses!</strong> Data Kandidate Berhasil dihapus.
+                        <strong>Sukses!</strong> Data Kandidat Berhasil ditambahkan.
                     </div>
                     ';
             } else {
                 $return = '
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Sukses!</strong> Data Kandidate Berhasil dihapus.
+                        <strong>Sukses!</strong> Data Kandidat Berhasil ditambahkan.
                     </div>
                     ';
             }
         } else {
             $return = '
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>Sukses!</strong> Data Kandidate Berhasil dihapus.
+                    <strong>Sukses!</strong> Data Kandidat Berhasil ditambahkan.
                 </div>
                 ';
         }
@@ -91,20 +91,106 @@ class Candidate extends Controller
         return $return;
     }
 
-    public function edit(Request $request)
+    public function edit(AppCandidate $candidate)
     {
-        return view('admin.candidate.update');
+
+        $ketua = $candidate->candidateDetails->where('type', 'ketua')->first();
+        $wakil = $candidate->candidateDetails->where('type', 'wakil')->first();
+
+        return view('admin.candidate.update', compact('candidate', 'ketua', 'wakil'));
     }
 
-    public function update()
+    public function update(Request $request)
     {
+        $request->validate([
+            'name_ketua'    => 'required',
+            'class_ketua'   => 'required',
+            'majors_ketua'  => 'required',
+            'gender_ketua'  => 'required',
+            'name_wakil'    => 'required',
+            'class_wakil'   => 'required',
+            'majors_wakil'  => 'required',
+            'gender_wakil'  => 'required',
+            'visi'          => 'required',
+            'misi'          => 'required'
+        ]);
 
+        $candidate = AppCandidate::find($request->id);
+        $ketua = $candidate->candidateDetails->where('type', 'ketua')->first();
+        $wakil = $candidate->candidateDetails->where('type', 'wakil')->first();
+
+        $picture_ketua = $ketua->picture;
+        $picture_wakil = $wakil->picture;
+
+        if($request->hasFile('picture_ketua')) {
+            $request->validate([
+                'picture_ketua' => 'required|file|max:2048|mimes:png,jpg,jpeg',
+            ]);
+            Storage::delete($ketua->picture);
+            $picture_ketua = $request->file('picture_ketua')->store('candidate/ketua');
+        }
+
+        if($request->hasFile('picture_wakil')) {
+            $request->validate([
+                'picture_wakil' => 'required|file|max:2048|mimes:png,jpg,jpeg',
+            ]);
+            Storage::delete($wakil->picture);
+            $picture_wakil = $request->file('picture_wakil')->store('candidate/wakil');
+        }
+
+        $candidateUpdate = $candidate->update([
+            'visi' => $request->visi,
+            'misi' => $request->misi,
+        ]);
+
+        if($candidateUpdate) {
+            $ketuaUpdate = $ketua->update([
+                'candidate_id'  => $candidate->id,
+                'name'          => $request->name_ketua,
+                'class'         => $request->class_ketua,
+                'majors'        => $request->majors_ketua,
+                'gender'        => $request->gender_ketua,
+                'picture'       => $picture_ketua,
+            ]);
+
+            $wakilUpdate = $wakil->update([
+                'candidate_id'  => $candidate->id,
+                'name'          => $request->name_wakil,
+                'class'         => $request->class_wakil,
+                'majors'        => $request->majors_wakil,
+                'gender'        => $request->gender_wakil,
+                'picture'       => $picture_wakil,
+            ]);
+
+            if($ketuaUpdate && $wakilUpdate) {
+                $return = '
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Sukses!</strong> Data Kandidat Berhasil diupdate.
+                    </div>
+                    ';
+            } else {
+                $return = '
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Sukses!</strong> Data Kandidat Berhasil diupdate.
+                    </div>
+                    ';
+            }
+        } else {
+            $return = '
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Sukses!</strong> Data Kandidat Berhasil diupdate.
+                </div>
+                ';
+        }
+
+        return $return;
     }
 
     public function destroy(Request $request)
     {
         $candidate_data = AppCandidate::find($request->id);
-        Storage::delete($candidate_data->image);
+        Storage::delete($candidate_data->candidateDetails->where('type', 'ketua')->first()->picture);
+        Storage::delete($candidate_data->candidateDetails->where('type', 'wakil')->first()->picture);
 
         $candidate = AppCandidate::destroy($request->id);
 
@@ -174,7 +260,7 @@ class Candidate extends Controller
                             })
                             ->addColumn('action', function($candidate) {
                                 $button = "";
-                                if(auth()->user()->can("candidate.update")) $button .= '<a href="'.route("admin.candidate.edit", ['id' => $candidate->id]).'" class="btn btn-xs btn-outline-primary btn-rounded" >Edit</a> ';
+                                if(auth()->user()->can("candidate.update")) $button .= '<a href="'.route("admin.candidate.edit", ['candidate' => $candidate]).'" class="btn btn-xs btn-outline-primary btn-rounded" >Edit</a> ';
                                 if(auth()->user()->can("candidate.delete")) $button .= '<a href="javascript:void(0)" class="btn btn-xs btn-outline-danger btn-rounded" data-id="'. $candidate->id .'" onclick="delete_modal(this)">Hapus</a>';
                                 return $button;
                             })

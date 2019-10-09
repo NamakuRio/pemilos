@@ -75,9 +75,15 @@
                             <label for="picture_ketua" class="col-form-label col-sm-2 pt-0">Foto</label>
                             <div class="col-sm-10">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="picture_ketua" name="picture_ketua">
+                                    <input type="file" class="custom-file-input" id="picture_ketua" name="picture_ketua" onchange="showPreview(this, 'preview_photo_ketua')">
                                     <label class="custom-file-label" for="customFile">Pilih File</label>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="previewpicture_ketua" class="col-form-label col-sm-2 pt-0">Preview Foto</label>
+                            <div class="col-sm-10">
+                                <img src="" alt="" id="preview_photo_ketua" class="img-thumbnail" width="200">
                             </div>
                         </div>
                     </fieldset>
@@ -124,9 +130,15 @@
                             <label for="picture_wakil" class="col-form-label col-sm-2 pt-0">Foto</label>
                             <div class="col-sm-10">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="picture_wakil" name="picture_wakil">
+                                    <input type="file" class="custom-file-input" id="picture_wakil" name="picture_wakil" onchange="showPreview(this, 'preview_photo_wakil')">
                                     <label class="custom-file-label" for="customFile">Pilih File</label>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="previewpicture_wakil" class="col-form-label col-sm-2 pt-0">Preview Foto</label>
+                            <div class="col-sm-10">
+                                <img src="" alt="" id="preview_photo_wakil" class="img-thumbnail" width="200">
                             </div>
                         </div>
                     </fieldset>
@@ -209,6 +221,35 @@
             error: function() {
             }
         })
+    }
+
+    function showPreview(gambar,idpreview){
+
+        var gb = gambar.files;
+
+        for (var i = 0; i < gb.length; i++){
+
+            var gbPreview = gb[i];
+            var imageType = /image.*/;
+            var preview=document.getElementById(idpreview);
+            var reader = new FileReader();
+
+            if (gbPreview.type.match(imageType)) {
+
+                preview.file = gbPreview;
+                reader.onload = (function(element) {
+                    return function(e) {
+                        element.src = e.target.result;
+                    };
+                })(preview);
+
+                reader.readAsDataURL(gbPreview);
+            }else{
+
+                alert("Type file tidak sesuai. Khusus image.");
+            }
+
+        }
     }
 </script>
 @endpush
