@@ -216,7 +216,7 @@ class Candidate extends Controller
             for($j = 0; $j < 100; $j++){
                 for($k = 0; $k < 100; $k++){
                     AppCandidate::find($request->id);
-                    sleep(2);
+                    // sleep(2);
                 }
             }
         }
