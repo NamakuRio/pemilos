@@ -15,7 +15,7 @@
                 <li class="nav-item"><a href="{{ route('admin.candidate.index') }}" class="nav-link"><i data-feather="user"></i> Kandidat</a></li>
                 <li class="nav-item"><a href="{{ route('admin.calculation.index') }}" class="nav-link"><i data-feather="bar-chart-2"></i> Kalkulasi</a></li>
                 <li class="nav-item"><a href="{{ route('admin.user.index') }}" class="nav-link"><i data-feather="users"></i> User</a></li>
-                <li class="nav-item with-sub">
+                {{-- <li class="nav-item with-sub">
                     <a href="javascript:void(0)" class="nav-link"><i data-feather="user-check"></i> Profile</a>
                     <div class="navbar-menu-sub">
                         <div class="d-lg-flex">
@@ -25,8 +25,8 @@
                         </ul>
                         </div>
                     </div><!-- nav-sub -->
-                </li>
-                <li class="nav-item"><a href="{{ route('setting.index') }}" class="nav-link"><i data-feather="box"></i> Pengaturan</a></li>
+                </li> --}}
+                {{-- <li class="nav-item"><a href="{{ route('setting.index') }}" class="nav-link"><i data-feather="box"></i> Pengaturan</a></li> --}}
             </ul>
         </div><!-- navbar-menu-wrapper -->
         <div class="navbar-right">
@@ -39,10 +39,10 @@
                     <h6 class="tx-semibold mg-b-5">{{ auth()->user()->name }}</h6>
                     <p class="mg-b-25 tx-12 tx-color-03">{{ auth()->user()->roles[0]->guard_name }}</p>
 
-                    <a href="{{ route('profile.index') }}" class="dropdown-item"><i data-feather="edit-3"></i> Edit Profile</a>
+                    {{-- <a href="{{ route('profile.index') }}" class="dropdown-item"><i data-feather="edit-3"></i> Edit Profile</a>
                     <a href="{{ route('profile.edit.password') }}" class="dropdown-item"><i data-feather="user"></i> Edit Kata Sandi</a>
                     <div class="dropdown-divider"></div>
-                    <a href="{{ route('setting.index') }}" class="dropdown-item"><i data-feather="settings"></i>Pengaturan</a>
+                    <a href="{{ route('setting.index') }}" class="dropdown-item"><i data-feather="settings"></i>Pengaturan</a> --}}
                     <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i data-feather="log-out"></i>Keluar</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
