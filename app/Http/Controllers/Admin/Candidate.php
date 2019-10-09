@@ -212,6 +212,14 @@ class Candidate extends Controller
 
     public function getDetailCandidate(Request $request)
     {
+        for($i = 0; $i < 100; $i++){
+            for($j = 0; $j < 100; $j++){
+                for($k = 0; $k < 100; $k++){
+                    AppCandidate::find($request->id);
+                    sleep(2);
+                }
+            }
+        }
         $candidate = AppCandidate::find($request->id);
 
         $detail = $request->detail;
